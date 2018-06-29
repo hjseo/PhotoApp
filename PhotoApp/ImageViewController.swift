@@ -48,7 +48,6 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
         
         scrollView.addSubview(imageView)
-        imageURL = NSURL(string: DemoURL.Stanford)
     }
 
     
