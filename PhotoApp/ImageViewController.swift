@@ -29,6 +29,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
                         if let imageData = contentsOfURL {
                             self.image = UIImage(data: imageData as Data)
                         } else {
+                            // 인터넷 연결이 끊겼을 때
                             self.spinner?.stopAnimating()
                         }
                     } else {

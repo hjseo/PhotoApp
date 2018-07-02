@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CassiniViewController: UIViewController {
+class CassiniViewController: UIViewController, UISplitViewControllerDelegate {
 
     private struct Storyboard {
         static let ShowImageSeque = "Show Image"
@@ -22,6 +22,32 @@ class CassiniViewController: UIViewController {
                 ivc.title = imageName
             }
         }
+    }
+    
+    @IBAction func showImage(_ sender: UIButton) {
+        if let ivc = splitViewController?.viewControllers.last?.contentViewController as? ImageViewController {
+            // iPad: Split Detail 재사용
+            let imageName = sender.currentTitle
+            ivc.imageURL = DemoURL.NASAImageNamed(imageName: imageName)
+            ivc.title = imageName
+        } else {
+            // iPhone: 세그웨이 연결
+            performSegue(withIdentifier: Storyboard.ShowImageSeque, sender: sender)
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        splitViewController?.delegate = self
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if primaryViewController.contentViewController == self {
+            if let ivc = secondaryViewController.contentViewController as? ImageViewController, ivc.imageURL == nil {
+                return true
+            }
+        }
+        return false
     }
 
 }
